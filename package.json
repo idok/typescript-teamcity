@@ -1,0 +1,25 @@
+{
+  "name": "typescript-teamcity",
+  "version": "1.0.0",
+  "author": "idok",
+  "description": "typescript-teamcity",
+  "license": "MIT",
+  "bin": {
+    "tsc-tc": "./src/index.js"
+  },
+  "scripts": {
+    "test1": "jasmine --config=test/jasmine.json",
+    "test": "eslint . --cache && jasmine --config=test/jasmine.json"
+  },
+  "dependencies": {
+    "debug": "^4.3.1",
+    "execa": "^5.0.0",
+    "is-ci": "^3.0.0",
+    "teamcity-service-messages": "^0.1.11"
+  },
+  "devDependencies": {
+    "eslint": "^7.21.0",
+    "jasmine": "^3.6.4",
+    "eslint-config-wix-editor": "^8.4.0"
+  }
+}

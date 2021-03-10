@@ -1,0 +1,11 @@
+{
+  "spec_dir": ".",
+  "spec_files": [
+    "test/**/*.unit.js"
+  ],
+  "helpers": [
+    "helpers/**/*.js"
+  ],
+  "oneFailurePerSpec": true,
+  "random": false
+}
