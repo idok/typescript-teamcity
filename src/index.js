@@ -17,12 +17,10 @@ function getArgs(originalArgs) {
 
 async function run() {
     const originalArgs = process.argv.slice(2)
-    console.log('running tsc', originalArgs)
+    console.log('running tsc', originalArgs.join(' '))
+    debug('typescript done')
     const args = getArgs(originalArgs)
     execa.sync('yarn', args)
-    if (isCi) {
-        tsm.buildProblem({description: 'typescript compilation error', identity: 'typescript'})
-    }
     debug('typescript done')
 }
 
