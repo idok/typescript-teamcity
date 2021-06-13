@@ -8,19 +8,24 @@ const {parseAndPrint} = require('./utils')
 const process = require('process')
 
 function getArgs(originalArgs) {
-    const ciArgs = ['--pretty', 'false']
-    if (isCi) {
-        return ['tsc', ...originalArgs, ...ciArgs]
-    }
-    return ['tsc', ...originalArgs]
+    const ciArgs = isCi ? ['--pretty', 'false'] : []
+    return ['tsc', ...originalArgs, ...ciArgs]
 }
 
 async function run() {
     const originalArgs = process.argv.slice(2)
     console.log('running tsc', originalArgs.join(' '))
-    debug('typescript done')
     const args = getArgs(originalArgs)
-    execa.sync('yarn', args)
+    const {exitCode} = execa.sync('yarn', args)
+    if (exitCode !== 0) {
+        if (isCi) {
+            tsm.buildProblem({description: 'typescript compilation error', identity: 'typescript'})
+        } else {
+            console.log('typescript compilation error')
+        }
+        debug('typescript done')
+        process.exit(exitCode)
+    }
     debug('typescript done')
 }
 
@@ -29,5 +34,5 @@ run().catch(e => {
         tsm.buildProblem({description: 'typescript compilation error', identity: 'typescript'})
         parseAndPrint(e.message)
     }
-    process.exit(e.errno)
+    process.exit(e.exitCode)
 })
